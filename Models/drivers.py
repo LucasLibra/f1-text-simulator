@@ -7,6 +7,7 @@ class Driver:
                 self.tyre_compound = tyre_compound
                 self.tyre_age = tyre_age
                 self.race_time = 0
+                self.hasDonePit = False
         
         def getName(self):
             return self.name
@@ -29,6 +30,9 @@ class Driver:
         def getRaceTime(self):
             return self.race_time
 
+        def getHasDonePit(self):
+            return self.hasDonePit
+
         def setTyreAge(self, tyre_age):
             self.tyre_age = tyre_age
 
@@ -37,3 +41,8 @@ class Driver:
 
         def setTyreCompound(self, tyre_compound):
             self.tyre_compound = tyre_compound
+
+        def setHasDonePit(self, hasDonePit):
+            self.hasDonePit = hasDonePit
+
+        

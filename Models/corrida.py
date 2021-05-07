@@ -20,6 +20,20 @@ class Race:
                 piloto_volta_mais_rapida = ''
                 for j in range(0,number_of_laps):
                         positions = []
+                        pit_stop = input("Alguém quer fazer pitstop?: ")
+                        while pit_stop == 'Sim':
+                                piloto = input("Qual o nome do piloto?: ")
+                                for i in range(0,len(self.drivers)):
+                                        if piloto == self.drivers[i].getName():
+                                                tyre = input("Para qual componente de pneus?: ")
+                                                for n in range(0,len(self.tyres)):
+                                                        if self.tyres[n].getName() == tyre:
+                                                                tyre = self.tyres[n]
+                                                self.drivers[i].setTyreCompound(tyre)
+                                                self.drivers[i].setTyreAge(0)
+                                                self.drivers[i].setHasDonePit(True)
+                                pit_stop = input("Deseja continuar?: ")
+
                         for i in range(0,len(self.drivers)):
                                 lap_race = 0
                                 
@@ -37,17 +51,11 @@ class Race:
                                         piloto_volta_mais_rapida = self.drivers[i].getName()
                                 
 
-                                pit_stop = input("%s quer fazer pitstop?: " % self.drivers[i].getName())
-                                if pit_stop == 'Sim':
-                                        tyre = input("Para qual componente de pneus?: ")
-                                        for n in range(0,len(self.tyres)):
-                                                if self.tyres[n].getName() == tyre:
-                                                        tyre = self.tyres[n]
-                                        self.drivers[i].setTyreCompound(tyre)
-                                        self.drivers[i].setTyreAge(0)
+                                if self.drivers[i].getHasDonePit() == True:
                                         pit_time = random.uniform(1.9,3)
-                                        print("O pitstop foi de %f s" % pit_time)
+                                        print("O pitstop de %s foi de %f s" % (self.drivers[i].getName(),pit_time))
                                         lap_race += pit_time + random.uniform(25,30)
+                                        self.drivers[i].setHasDonePit(False)
 
                                 tyre_age = self.drivers[i].getTyreAge()
                                 race_time = self.drivers[i].getRaceTime() + lap_race
