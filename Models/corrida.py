@@ -1,0 +1,75 @@
+from lap import Lap
+from tyre import Tyre
+from circuito import Circuit
+import pandas as pd
+import datetime
+import random
+
+class Race:
+        def __init__(self, circuit, drivers, tyres):
+                self.circuit = circuit
+                self.drivers = drivers
+                self.df_qualy = pd.read_excel("classificacao.xlsx")
+                self.tyres = tyres
+        
+        def race(self):
+                percurso = self.circuit.getPercurso()
+                lap_average = self.circuit.getLapAverage()
+                number_of_laps = self.circuit.getNumberOfLaps()
+                max = 100
+                piloto_volta_mais_rapida = ''
+                for j in range(0,number_of_laps):
+                        positions = []
+                        for i in range(0,len(self.drivers)):
+                                lap_race = 0
+                                
+                                tyre_age = self.drivers[i].getTyreAge()
+                                lap = Lap(lap_average = lap_average, tyre = self.drivers[i].getTyreCompound())
+                                lap_race += lap.lap_performance(number_of_laps = tyre_age, percurso = percurso)
+                                if j == 0:
+                                        for index, row in self.df_qualy.iterrows():
+                                                name = row['Name']
+                                                if name == self.drivers[i].getName():
+                                                        lap_race +=  index*0.75
+                                                        
+                                if lap_race < max:
+                                        max = lap_race
+                                        piloto_volta_mais_rapida = self.drivers[i].getName()
+                                
+
+                                pit_stop = input("%s quer fazer pitstop?: " % self.drivers[i].getName())
+                                if pit_stop == 'Sim':
+                                        tyre = input("Para qual componente de pneus?: ")
+                                        for n in range(0,len(self.tyres)):
+                                                if self.tyres[n].getName() == tyre:
+                                                        tyre = self.tyres[n]
+                                        self.drivers[i].setTyreCompound(tyre)
+                                        self.drivers[i].setTyreAge(0)
+                                        pit_time = random.uniform(1.9,3)
+                                        print("O pitstop foi de %f s" % pit_time)
+                                        lap_race += pit_time + random.uniform(25,30)
+
+                                tyre_age = self.drivers[i].getTyreAge()
+                                race_time = self.drivers[i].getRaceTime() + lap_race
+                                self.drivers[i].setRaceTime(race_time)
+                                race_time_timedelta = str(datetime.timedelta(seconds=race_time))
+                                lap_race_timedelta = str(datetime.timedelta(seconds=lap_race))
+                                self.drivers[i].setTyreAge(tyre_age+1)
+
+                                data = {
+                                        'Name':self.drivers[i].getName(),
+                                        'Nationality': self.drivers[i].getNationality(),
+                                        'Number':self.drivers[i].getNumber(),
+                                        'Team':self.drivers[i].getTeam(),
+                                        'Tyre_Compound':self.drivers[i].getTyreCompound().getName(),
+                                        'Race_Time':race_time_timedelta,
+                                        'Lap_Time':lap_race_timedelta,
+                                        'Tyre_Age': tyre_age+1
+                                        }
+                                positions.append(data)
+                        df = pd.DataFrame(positions)
+                        df_sorted = df.sort_values(by='Race_Time', ascending=True)
+                        print("Lap: %i/%i" % (j,number_of_laps))
+                        print(df_sorted)
+                        print("Volta mais rápida: %s - %s" % (str(datetime.timedelta(seconds=max)), piloto_volta_mais_rapida))
+                df_sorted.to_excel('classificacao_final.xlsx', index=False)        
