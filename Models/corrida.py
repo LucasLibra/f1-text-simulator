@@ -39,7 +39,8 @@ class Race:
                                 
                                 tyre_age = self.drivers[i].getTyreAge()
                                 lap = Lap(lap_average = lap_average, tyre = self.drivers[i].getTyreCompound())
-                                lap_race += lap.lap_performance(number_of_laps = tyre_age, percurso = percurso)
+                                lap_race_aux, tyre_wear = lap.lap_performance(number_of_laps = tyre_age, percurso = percurso)
+                                lap_race += lap_race_aux
                                 if j == 0:
                                         for index, row in self.df_qualy.iterrows():
                                                 name = row['Name']

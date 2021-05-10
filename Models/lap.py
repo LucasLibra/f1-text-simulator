@@ -10,4 +10,4 @@ class Lap:
         def lap_performance(self, number_of_laps, percurso):
                 (tyre_wear,tyre_speed) = self.tyre.tyre_performance(number_of_laps, percurso)
                 self.lap_time = self.lap_average + self.lap_average*(tyre_wear+tyre_speed)
-                return self.lap_time
+                return self.lap_time, tyre_wear*5

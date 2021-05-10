@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 soft_tyre = Tyre(tyre_name = "Soft", tyre_speed = 0.01)
-medium_tyre = Tyre(tyre_name = "Medium",tyre_speed = 0.05)
-hard_tyre = Tyre(tyre_name = "Hard", tyre_speed = 0.09)
+medium_tyre = Tyre(tyre_name = "Medium",tyre_speed = 0.02)
+hard_tyre = Tyre(tyre_name = "Hard", tyre_speed = 0.03)
 
 tyres = [soft_tyre, medium_tyre, hard_tyre]
 

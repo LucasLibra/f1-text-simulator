@@ -3,8 +3,8 @@ from tyre import Tyre
 import matplotlib.pyplot as plt
 
 soft_tyre = Tyre(tyre_name = "Soft", tyre_speed = 0.01)
-medium_tyre = Tyre(tyre_name = "Medium",tyre_speed = 0.03)
-hard_tyre = Tyre(tyre_name = "Hard", tyre_speed = 0.05)
+medium_tyre = Tyre(tyre_name = "Medium",tyre_speed = 0.02)
+hard_tyre = Tyre(tyre_name = "Hard", tyre_speed = 0.03)
 
 lap_average = 67
 number_of_laps = 72

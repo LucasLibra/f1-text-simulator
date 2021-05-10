@@ -19,7 +19,7 @@ class Qualifying:
                 max = 0
                 for j in range(0,3):
                     lap = Lap(lap_average = lap_average, tyre = self.drivers[i].getTyreCompound())
-                    lap_qualy = lap.lap_performance(number_of_laps = tyre_age, percurso = percurso)
+                    lap_qualy,_ = lap.lap_performance(number_of_laps = tyre_age, percurso = percurso)
                     if lap_qualy >= max:
                         max = lap_qualy
                     tyre_age += 1
