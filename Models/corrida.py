@@ -5,6 +5,7 @@ import pandas as pd
 import datetime
 import random
 import math 
+import time
 
 class Race:
         def __init__(self, circuit, drivers, tyres):
@@ -21,7 +22,7 @@ class Race:
                 min = 100
                 piloto_volta_mais_rapida = ''
                 for j in range(0,number_of_laps):
-                        min = 50000
+
                         positions = []
                         # pit_stop = input("Alguém quer fazer pitstop?: ")
                         # while pit_stop == 'Sim':
@@ -61,7 +62,8 @@ class Race:
                                 pit_chance = random.uniform(0,e_tyre_wear)
 
                                 if pit_chance > 0.65:
-                                        self.drivers[i].setHasDonePit(True)
+                                        if (number_of_laps - j) > number_of_laps*0.15:
+                                                self.drivers[i].setHasDonePit(True)
 
                                 if self.drivers[i].getHasDonePit() == True:
                                         pit_time = random.uniform(1.9,4)
@@ -79,12 +81,7 @@ class Race:
                                 lap_race_timedelta = str(datetime.timedelta(seconds=lap_race))
                                 self.drivers[i].setTyreAge(tyre_age+1)
 
-                                if race_time <= min:
-                                        min = race_time
-
-                                gap_to_leader = race_time - min
                                
-                                gap_to_leader = '+' + str(datetime.timedelta(seconds=gap_to_leader))
                                 data = {
                                         'Name':self.drivers[i].getName(),
                                         'Nationality': self.drivers[i].getNationality(),
@@ -94,11 +91,17 @@ class Race:
                                         'Race_Time':race_time_timedelta,
                                         'Lap_Time':lap_race_timedelta,
                                         'Tyre_Age': tyre_age+1,
-                                        'Gap_To_Leader':gap_to_leader
+
                                         }
                                 positions.append(data)
                         df = pd.DataFrame(positions)
-                        df_sorted = df.sort_values(by='Race_Time', ascending=True)
+                        df_sorted = df.sort_values(by='Race_Time', ascending=True).reset_index()
+                        print(df_sorted['Race_Time'][0])
+                        # datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
+
+                        df_sorted['Gap_to_Leader'] =  pd.to_datetime(df_sorted['Race_Time'], format='%H:%M:%S.%f') - datetime.datetime.strptime(df_sorted['Race_Time'][0],'%H:%M:%S.%f')
+                        df_sorted['Gap_to_Leader'] = '+' + df_sorted['Gap_to_Leader'].astype(str).map(lambda x: x[8:])
+
                         print("Lap: %i/%i" % (j,number_of_laps))
                         print(df_sorted)
                         print("Volta mais rápida: %s - %s" % (str(datetime.timedelta(seconds=max)), piloto_volta_mais_rapida))
