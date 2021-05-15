@@ -4,6 +4,7 @@ class Circuit:
                 self.lap_average = lap_average
                 self.number_of_laps = number_of_laps
                 self.percurso = percurso
+                self.isSCOut = False
         
         def getName(self):
             return self.name
@@ -16,3 +17,9 @@ class Circuit:
 
         def getPercurso(self):
             return self.percurso
+
+        def getIsSCOut(self):
+            return self.isSCOut
+        
+        def setIsSCOut(self, sc_out):
+            self.isSCOut = sc_out
