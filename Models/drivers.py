@@ -8,6 +8,10 @@ class Driver:
                 self.tyre_age = tyre_age
                 self.race_time = 0
                 self.hasDonePit = False
+                self.isOut = False
+        
+        def getIsOut(self):
+            return self.isOut
         
         def getName(self):
             return self.name
@@ -45,4 +49,6 @@ class Driver:
         def setHasDonePit(self, hasDonePit):
             self.hasDonePit = hasDonePit
 
+        def setIsOut(self, isOut):
+            self.isOut = isOut
         
